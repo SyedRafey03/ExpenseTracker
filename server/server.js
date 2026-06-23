@@ -47,3 +47,5 @@ app.listen(PORT, () => {
 app.get('/', (req, res) => {
   res.send('Expense Tracker API is running...');
 });
+
+module.exports = app;
