@@ -9,7 +9,8 @@ router.post('/signup', async (req, res) => {
         await newUser.save();
         res.status(201).json({ message: "User created successfully!" });
     } catch (err) {
-        res.status(400).json({ error: "Email or Username already exists" });
+        console.error("Signup error:", err);
+        res.status(400).json({ error: "Email or Username already exists", details: err.message });
     }
 });
 
@@ -36,7 +37,8 @@ router.post('/login', async (req, res) => {
             res.status(401).json({ error: "Invalid credentials" });
         }
     } catch (err) {
-        res.status(500).json({ error: "Server error" });
+        console.error("Login error:", err);
+        res.status(500).json({ error: "Server error", details: err.message });
     }
 });
 
@@ -51,7 +53,8 @@ router.put('/budget/:id', async (req, res) => {
         );
         res.json({ message: "Budget updated successfully", monthlyBudget: updatedUser.monthlyBudget });
     } catch (err) {
-        res.status(500).json({ error: "Server error" });
+        console.error("Budget update error:", err);
+        res.status(500).json({ error: "Server error", details: err.message });
     }
 });
 
