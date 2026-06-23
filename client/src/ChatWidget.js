@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { MessageSquare, X, Send, Loader2 } from 'lucide-react';
+import { API_URL } from './config';
 
 const ChatWidget = ({ transactions, budgetLimit }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -27,7 +28,7 @@ const ChatWidget = ({ transactions, budgetLimit }) => {
         setIsLoading(true);
 
         try {
-            const res = await axios.post('http://localhost:5000/chat', {
+            const res = await axios.post(`${API_URL}/chat`, {
                 message: userMsg,
                 transactions,
                 budgetLimit

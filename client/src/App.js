@@ -12,6 +12,7 @@ import ExpensePage from './ExpensePage';
 import AuthPage from './AuthPage'; 
 import BudgetProgress from './BudgetProgress';
 import ChatWidget from './ChatWidget';
+import { API_URL } from './config';
 
 function App() {
   const [user, setUser] = useState(null); 
@@ -32,7 +33,7 @@ function App() {
   }, [user]);
 
   const fetchTransactions = () => {
-    axios.get(`http://localhost:5000/transactions/${user._id}`)
+    axios.get(`${API_URL}/transactions/${user._id}`)
       .then(res => setTransactions(res.data))
       .catch(err => console.error("Error fetching transactions:", err));
   };
@@ -99,7 +100,7 @@ function App() {
     }
 
     const transactionData = { ...t, userId: user._id };
-    axios.post('http://localhost:5000/transactions/add', transactionData)
+    axios.post(`${API_URL}/transactions/add`, transactionData)
       .then(res => {
         fetchTransactions(); 
         setIsModalOpen(false);
@@ -108,7 +109,7 @@ function App() {
   };
 
   const handleUpdateBudget = (newBudget) => {
-    axios.put(`http://localhost:5000/auth/budget/${user._id}`, { monthlyBudget: newBudget })
+    axios.put(`${API_URL}/auth/budget/${user._id}`, { monthlyBudget: newBudget })
       .then(res => {
         setUser({ ...user, monthlyBudget: newBudget });
       })
@@ -117,7 +118,7 @@ function App() {
 
   const deleteTransaction = (id) => {
     const targetId = transactions.find(t => t._id === id || t.id === id)?._id || id;
-    axios.delete(`http://localhost:5000/transactions/${targetId}`)
+    axios.delete(`${API_URL}/transactions/${targetId}`)
       .then(() => {
         setTransactions(transactions.filter(t => t._id !== targetId));
       })
@@ -127,7 +128,7 @@ function App() {
   const clearAllIncome = () => {
     if (window.confirm("Delete ALL income records from database?")) {
       const incomeIds = transactions.filter(t => t.type === 'income').map(t => t._id);
-      Promise.all(incomeIds.map(id => axios.delete(`http://localhost:5000/transactions/${id}`)))
+      Promise.all(incomeIds.map(id => axios.delete(`${API_URL}/transactions/${id}`)))
         .then(() => fetchTransactions());
     }
   };
@@ -135,7 +136,7 @@ function App() {
   const clearAllExpenses = () => {
     if (window.confirm("Delete ALL expense records from database?")) {
       const expenseIds = transactions.filter(t => t.type === 'expense').map(t => t._id);
-      Promise.all(expenseIds.map(id => axios.delete(`http://localhost:5000/transactions/${id}`)))
+      Promise.all(expenseIds.map(id => axios.delete(`${API_URL}/transactions/${id}`)))
         .then(() => fetchTransactions());
     }
   };
