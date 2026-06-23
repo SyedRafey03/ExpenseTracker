@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { LayoutDashboard, ArrowUpCircle, ArrowDownCircle, LogOut, Plus, Download, Eye, Trash2, Camera } from 'lucide-react';
+import { LayoutDashboard, ArrowUpCircle, ArrowDownCircle, LogOut, Plus, Download, Eye, Trash2, Camera, Menu, X } from 'lucide-react';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import './App.css';
@@ -24,6 +24,7 @@ function App() {
   const [profileImage, setProfileImage] = useState(null);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showFullImage, setShowFullImage] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // --- 1. FETCH DATA FROM BACKEND ---
   useEffect(() => {
@@ -185,10 +186,31 @@ function App() {
   if (!user) {
     return <AuthPage onLoginSuccess={handleLoginSuccess} />;
   }
-
   return (
     <div className="dashboard-container">
-      <nav className="sidebar">
+      {/* Mobile Top Header */}
+      <div className="mobile-header">
+        <button className="menu-toggle-btn" onClick={() => setIsMobileMenuOpen(true)}>
+          <Menu size={24} />
+        </button>
+        <span className="mobile-logo-text">Expense <span className="highlight-green">Tracker</span></span>
+        <div className="mobile-avatar" onClick={() => { setActiveView('dashboard'); setIsMobileMenuOpen(false); }}>
+          {profileImage ? (
+            <img src={profileImage} alt="Profile" className="profile-img" />
+          ) : (
+            user.username.substring(0, 2).toUpperCase()
+          )}
+        </div>
+      </div>
+
+      {isMobileMenuOpen && (
+        <div className="sidebar-overlay" onClick={() => setIsMobileMenuOpen(false)}></div>
+      )}
+
+      <nav className={`sidebar ${isMobileMenuOpen ? 'open' : ''}`}>
+        <button className="close-mobile-menu" onClick={() => setIsMobileMenuOpen(false)}>
+          <X size={20} />
+        </button>
         <div className="profile-section">
           <div className="avatar-container" onClick={(e) => e.stopPropagation()}>
             <div className="avatar" onClick={() => setShowProfileMenu(!showProfileMenu)}>
@@ -234,16 +256,16 @@ function App() {
         </div>
 
         <ul className="nav-links">
-          <li className={activeView === 'dashboard' ? 'active' : ''} onClick={() => setActiveView('dashboard')}>
+          <li className={activeView === 'dashboard' ? 'active' : ''} onClick={() => { setActiveView('dashboard'); setIsMobileMenuOpen(false); }}>
             <LayoutDashboard size={20} /> Dashboard
           </li>
-          <li className={activeView === 'income' ? 'active' : ''} onClick={() => setActiveView('income')}>
+          <li className={activeView === 'income' ? 'active' : ''} onClick={() => { setActiveView('income'); setIsMobileMenuOpen(false); }}>
             <ArrowUpCircle size={20} /> Income
           </li>
-          <li className={activeView === 'expense' ? 'active' : ''} onClick={() => setActiveView('expense')}>
+          <li className={activeView === 'expense' ? 'active' : ''} onClick={() => { setActiveView('expense'); setIsMobileMenuOpen(false); }}>
             <ArrowDownCircle size={20} /> Expense
           </li>
-          <li className="logout" onClick={handleLogout}><LogOut size={20} /> Logout</li>
+          <li className="logout" onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }}><LogOut size={20} /> Logout</li>
         </ul>
       </nav>
 

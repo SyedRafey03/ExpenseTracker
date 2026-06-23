@@ -596,3 +596,189 @@ header h2 {
     background: #cbd5e1;
     cursor: not-allowed;
 }
+
+/* --- 7. RESPONSIVE DESIGN & MOBILE OPTIMIZATIONS --- */
+
+/* Initially hide mobile header on desktop */
+.mobile-header {
+    display: none;
+}
+
+.close-mobile-menu {
+    display: none;
+}
+
+/* Responsive Media Queries */
+@media (max-width: 1024px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-container {
+        flex-direction: column;
+    }
+
+    /* Mobile Navbar Styling */
+    .mobile-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: linear-gradient(135deg, #0f172a, #1e293b);
+        color: white;
+        padding: 15px 20px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        z-index: 1000;
+        position: sticky;
+        top: 0;
+    }
+
+    .mobile-logo-text {
+        font-weight: 800;
+        font-size: 20px;
+    }
+
+    .highlight-green {
+        color: #10b981;
+    }
+
+    .menu-toggle-btn {
+        background: transparent;
+        border: none;
+        color: white;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 5px;
+    }
+
+    .mobile-avatar {
+        width: 38px;
+        height: 38px;
+        background: linear-gradient(135deg,#10b981,#34d399);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: white;
+        font-size: 14px;
+        cursor: pointer;
+        overflow: hidden;
+    }
+
+    /* Sidebar Drawer Styling for Mobile */
+    .sidebar {
+        position: fixed;
+        left: -280px;
+        top: 0;
+        bottom: 0;
+        width: 260px;
+        z-index: 9999;
+        transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 10px 0 30px rgba(0,0,0,0.25);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .close-mobile-menu {
+        display: block;
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: transparent;
+        border: none;
+        color: #cbd5e1;
+        cursor: pointer;
+    }
+
+    .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(4px);
+        z-index: 9998;
+    }
+
+    /* Main Content Adjustments */
+    .main-content {
+        padding: 20px;
+        overflow-x: hidden;
+    }
+
+    header {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 15px;
+        margin-bottom: 25px !important;
+    }
+
+    header h2 {
+        margin-bottom: 0 !important;
+    }
+
+    /* Stats Grid to 1-column on mobile */
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        margin-bottom: 25px;
+    }
+
+    /* Layout Sections to 1-column stack */
+    .data-section {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .income-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .income-header-card {
+        padding: 15px;
+    }
+
+    /* Chat Widget Adjustments on Mobile */
+    .chat-window {
+        bottom: 10px;
+        right: 10px;
+        left: 10px;
+        width: auto;
+        height: 450px;
+    }
+
+    .chat-toggle-btn {
+        bottom: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Adjust text sizes */
+    .card h3 {
+        font-size: 20px;
+    }
+
+    .income-item-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .income-item-card > div:last-child {
+        width: 100%;
+        justify-content: space-between;
+        display: flex;
+        align-items: center;
+    }
+}
